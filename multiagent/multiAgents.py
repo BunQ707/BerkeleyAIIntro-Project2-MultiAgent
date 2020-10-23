@@ -75,13 +75,14 @@ class ReflexAgent(Agent):
 
         # "*** YOUR CODE HERE ***"
         # return successorGameState.getScore()
+        #-----------------------------------
 
         closestghost = min([manhattanDistance(newPos, ghost.getPosition()) for ghost in newGhostStates])
 
         if closestghost:
-            ghost_dist = -10/closestghost
+            ghost_dist = 10/closestghost
         else:
-            ghost_dist = -1000
+            ghost_dist = 1000
 
         foodList = newFood.asList()
         if foodList:
@@ -89,8 +90,9 @@ class ReflexAgent(Agent):
         else:
             closestfood = 0
 
-        # large weight to number of food left
-        return (-2 * closestfood) + ghost_dist - (100*len(foodList))
+        # trongj so cua food la lon nhat
+        return -ghost_dist - 2*closestfood - 50*len(foodList)
+        #-------------------------------
 
 def scoreEvaluationFunction(currentGameState):
     """
