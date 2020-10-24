@@ -148,31 +148,35 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
         # "*** YOUR CODE HERE ***"
         # util.raiseNotDefined()
+
         def minimax_search(state, agentIndex, depth):
-          # if in min layer and last ghost
+          #min layer + last ghost (pacman index=0)
           if agentIndex == state.getNumAgents():
-            # if reached max depth, evaluate state
+
+            #max depth
             if depth == self.depth:
               return self.evaluationFunction(state)
-            # otherwise start new max layer with bigger depth
+
             else:
+              #depth++
               return minimax_search(state, 0, depth + 1)
-          # if not min layer and last ghost
+          
           else:
             moves = state.getLegalActions(agentIndex)
-            # if nothing can be done, evaluate the state
+            
             if len(moves) == 0:
               return self.evaluationFunction(state)
-            # get all the minimax values for the next layer with each node being a possible state after a move
-            next = (minimax_search(state.generateSuccessor(agentIndex, m), agentIndex + 1, depth) for m in moves)
 
-            # if max layer, return max of layer below
+            # minimax values in next layer
+            
+            next = (minimax_search(state.generateSuccessor(agentIndex, mv), agentIndex + 1, depth) for mv in moves)
+
             if agentIndex == 0:
               return max(next)
-            # if min layer, return min of layer below
+            
             else:
               return min(next)
-        # select the action with the greatest minimax value
+        
         result = max(gameState.getLegalActions(0), key=lambda x: minimax_search(gameState.generateSuccessor(0, x), 1, 1))
 
         return result
